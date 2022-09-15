@@ -83,7 +83,7 @@ class _NewContactPageState extends State<NewContactPage> {
                           source = ImageSource.gallery;
                           _getImage();
                         },
-                        icon: const Icon(Icons.camera),
+                        icon: const Icon(Icons.browse_gallery),
                         label: const Text('Gallery'),
                       ),
                     ],
