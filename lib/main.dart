@@ -1,16 +1,19 @@
 import 'package:contact_app/pages/contact_details_page.dart';
-import 'package:contact_app/pages/contact_home_pahe.dart';
+import 'package:contact_app/pages/contact_home_page.dart';
 import 'package:contact_app/pages/new_contact_page.dart';
+import 'package:contact_app/providers/contact_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => ContactProvider(),
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,10 +24,12 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: ContactHomePage.routeName,
       routes: {
-        ContactHomePage.routeName: (context) => const ContactHomePage(),
-        NewContactPage.routeName: (context) => const NewContactPage(),
-        ContactDetailsPage.routeName: (context) => const ContactDetailsPage(),
+        ContactHomePage.routeName : (context) => ContactHomePage(),
+        NewContactPage.routeName : (context) => NewContactPage(),
+        ContactDetailsPage.routeName : (context) => ContactDetailsPage(),
       },
     );
   }
 }
+
+
