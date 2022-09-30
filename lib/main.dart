@@ -6,9 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (context) => ContactProvider(),
-      child: const MyApp()));
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ContactProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -24,12 +27,10 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: ContactHomePage.routeName,
       routes: {
-        ContactHomePage.routeName : (context) => ContactHomePage(),
-        NewContactPage.routeName : (context) => NewContactPage(),
-        ContactDetailsPage.routeName : (context) => ContactDetailsPage(),
+        ContactHomePage.routeName: (context) => const ContactHomePage(),
+        NewContactPage.routeName: (context) => const NewContactPage(),
+        ContactDetailsPage.routeName: (context) => const ContactDetailsPage(),
       },
     );
   }
 }
-
-

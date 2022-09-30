@@ -1,6 +1,4 @@
 import 'package:contact_app/customwidgets/contact_item.dart';
-import 'package:contact_app/models/contact_model.dart';
-import 'package:contact_app/pages/contact_details_page.dart';
 import 'package:contact_app/pages/new_contact_page.dart';
 import 'package:contact_app/providers/contact_provider.dart';
 import 'package:flutter/material.dart';
@@ -20,14 +18,15 @@ class ContactHomePage extends StatelessWidget {
       ),
       body: Consumer<ContactProvider>(
           builder: (context, provider, child) => provider.contactList.isEmpty
-              ? Center(
-                  child: const Text('No contact found'),
-                )
+              ? const Center(child: Text('No contact found'))
               : ListView.builder(
                   itemCount: provider.contactList.length,
                   itemBuilder: (context, index) {
                     final contact = provider.contactList[index];
-                    return ContactItem(contact: contact, provider: provider,);
+                    return ContactItem(
+                      contact: contact,
+                      provider: provider,
+                    );
                   },
                 )),
       floatingActionButton: FloatingActionButton(

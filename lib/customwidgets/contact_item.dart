@@ -7,7 +7,9 @@ import '../pages/contact_details_page.dart';
 class ContactItem extends StatefulWidget {
   final ContactModel contact;
   final ContactProvider provider;
-  const ContactItem({Key? key, required this.contact, required this.provider}) : super(key: key);
+
+  const ContactItem({Key? key, required this.contact, required this.provider})
+      : super(key: key);
 
   @override
   State<ContactItem> createState() => _ContactItemState();
@@ -23,16 +25,18 @@ class _ContactItemState extends State<ContactItem> {
         padding: const EdgeInsets.only(right: 10),
         alignment: Alignment.centerRight,
         color: Colors.red,
-        child: const Icon(Icons.delete, color: Colors.white,),
+        child: const Icon(
+          Icons.delete,
+          color: Colors.white,
+        ),
       ),
       confirmDismiss: (direction) {
         return showDialog(
             barrierDismissible: false,
             context: context,
-            builder: (context) =>
-                AlertDialog(
+            builder: (context) => AlertDialog(
                   title: const Text('Delete'),
-                  content: Text('Are you sure to delete this contact?'),
+                  content: const Text('Are you sure to delete this contact?'),
                   actions: [
                     TextButton(
                       onPressed: () {
@@ -62,15 +66,13 @@ class _ContactItemState extends State<ContactItem> {
         trailing: IconButton(
           onPressed: () async {
             final value = widget.contact.favorite ? 0 : 1;
-            await widget.provider.updateById(widget.contact.id, tblContactColFavorite, value);
+            await widget.provider
+                .updateById(widget.contact.id, tblContactColFavorite, value);
             widget.contact.favorite = !widget.contact.favorite;
-            setState(() {
-
-            });
+            setState(() {});
           },
-          icon: Icon(widget.contact.favorite
-              ? Icons.favorite
-              : Icons.favorite_border),
+          icon: Icon(
+              widget.contact.favorite ? Icons.favorite : Icons.favorite_border),
         ),
       ),
     );

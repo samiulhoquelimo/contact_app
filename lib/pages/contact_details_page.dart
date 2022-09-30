@@ -4,7 +4,7 @@ import 'package:contact_app/models/contact_model.dart';
 import 'package:contact_app/providers/contact_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../utils/helper_functions.dart';
 
@@ -24,9 +24,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
     final id = argList[0];
     final name = argList[1];
     return Scaffold(
-      appBar: AppBar(
-        title: Text(name),
-      ),
+      appBar: AppBar(title: Text(name)),
       body: Consumer<ContactProvider>(
         builder: (context, provider, child) => FutureBuilder<ContactModel>(
           future: provider.getById(id),
@@ -37,7 +35,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                 children: [
                   contact.image == null
                       ? Image.asset(
-                          'images/placeholder.png',
+                          'assets/placeholder.png',
                           width: double.infinity,
                           height: 250,
                           fit: BoxFit.cover,
@@ -60,7 +58,9 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                             icon: const Icon(Icons.call),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _smsContact(contact.mobile);
+                            },
                             icon: const Icon(Icons.sms),
                           ),
                         ],
@@ -80,17 +80,17 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                                   onSaved: (value) async {
                                     await provider.updateById(
                                         id, tblContactColEmail, value);
-                                    setState(() {
-
-                                    });
+                                    setState(() {});
                                   });
                             },
-                            icon: Icon(Icons.edit),
+                            icon: const Icon(Icons.edit),
                           ),
                           if (contact.email!.isNotEmpty)
                             IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.email),
+                              onPressed: () {
+                                _emailContact(contact.email!);
+                              },
+                              icon: const Icon(Icons.email),
                             ),
                         ],
                       )),
@@ -109,18 +109,18 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                                 onSaved: (value) async {
                                   await provider.updateById(
                                       id, tblContactColAddress, value);
-                                  setState(() {
-
-                                  });
+                                  setState(() {});
                                 },
                               );
                             },
-                            icon: Icon(Icons.edit),
+                            icon: const Icon(Icons.edit),
                           ),
                           if (contact.streetAddress!.isNotEmpty)
                             IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.location_city),
+                              onPressed: () {
+                                _mapContact(contact.streetAddress!);
+                              },
+                              icon: const Icon(Icons.location_city),
                             ),
                         ],
                       )),
@@ -142,9 +142,40 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
   }
 
   void _callContact(String mobile) async {
-    final url = 'tel:$mobile';
-    if(await canLaunchUrlString(url)) {
-      await launchUrlString(url);
+    Uri mobileUrl = Uri.parse("tel:$mobile");
+    if (await canLaunchUrl(mobileUrl)) {
+      await launchUrl(mobileUrl);
+    } else {
+      showMsg(context, 'Cannot perform this operation');
+    }
+  }
+
+  void _smsContact(String sms) async {
+    Uri smsUrl = Uri.parse("sms:$sms");
+    if (await canLaunchUrl(smsUrl)) {
+      await launchUrl(smsUrl);
+    } else {
+      showMsg(context, 'Cannot perform this operation');
+    }
+  }
+
+  void _emailContact(String email) async {
+    final Uri emailUrl = Uri(
+      scheme: 'mailto',
+      path: email,
+      query: 'subject=Send from Contact App',
+    );
+    if (await canLaunchUrl(emailUrl)) {
+      await launchUrl(emailUrl);
+    } else {
+      showMsg(context, 'Cannot perform this operation');
+    }
+  }
+
+  void _mapContact(String address) async {
+    final Uri mapUrl = Uri.parse('https://www.google.com/maps/place/$address');
+    if (await canLaunchUrl(mapUrl)) {
+      await launchUrl(mapUrl);
     } else {
       showMsg(context, 'Cannot perform this operation');
     }

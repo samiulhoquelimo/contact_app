@@ -1,5 +1,30 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.pencilbox.contact_app">
+    <!-- Provide required visibility configuration for API level 30 and above -->
+    <queries>
+        <!-- SMS support -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="sms" />
+        </intent>
+        <!-- call support -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="tel" />
+        </intent>
+        <!-- email support -->
+        <intent>
+            <action android:name="android.intent.action.SENDTO"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <data android:scheme="mailto"/>
+        </intent>
+        <!-- map support -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
    <application
         android:label="contact_app"
         android:name="${applicationName}"

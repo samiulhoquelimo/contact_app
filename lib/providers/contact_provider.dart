@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class ContactProvider extends ChangeNotifier {
   List<ContactModel> contactList = [];
+
   Future<int> insert(ContactModel contactModel) =>
       DbHelper.insert(contactModel);
 
@@ -12,9 +13,8 @@ class ContactProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<ContactModel> getById(int? id) =>
-      DbHelper.getById(id);
-  
+  Future<ContactModel> getById(int? id) => DbHelper.getById(id);
+
   void deleteById(int? id) {
     DbHelper.deleteById(id).then((_) {
       final contact = contactList.firstWhere((element) => element.id == id);
